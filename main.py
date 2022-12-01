@@ -6,23 +6,22 @@ app = Flask(__name__)
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
-@bot.message_hundler(command=['start'])
+@bot.message_handler(command=['start'])
 def message_start(massage):
     bot.send_message(message.chat.id, 'hello!')
 
-@bot.message_hundler(command=['city'])
+@bot.message_handler(command=['cities'])
 def message_city(massage):
     keyboard = telebot.types.InlineKeyboardMarkup(raw_width=1)
 
-    with open('city') as file:
-        city = [item.split('') for item in file]
+    with open('cities.txt') as file:
+        cities = [item.split(',') for item in file]
 
-        for title. link in city:
-            url_button = telebot.types.InlineKeyboardButton(text=title.strip(), url=link.strip())
+        for city, link in cities:
+            url_button = telebot.types.InlineKeyboardButton(text=city.strip(), url=link.strip())
             keyboard.add(url_button)
 
-        bot.send_message.chat.id, 'list of cities', reply_markup=keyboard)
-
+        bot.send_message(message.chat.id, 'List of cities', reply_markup=keyboard)
 
 @app.route('/' + TOKEN, methods=[POST])
 def get_message():
@@ -32,7 +31,7 @@ def get_message():
 @app.route('/')
 def main():
     bot.remove_webhook()
-    bot.set_webhook(url='***') + TOKEN)
+    bot.set_webhook(url='***' + TOKEN)
     return "Python Telegram Bot 30-01-2022", 200
 
 if __name__ == '__name__':
