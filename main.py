@@ -6,13 +6,15 @@ app = Flask(__name__)
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
-@bot.message_handler(command=['start'])
-def message_start(massage):
-    bot.send_message(message.chat.id, 'hello!')
+
+@bot.message_handler(command=['Почати'])
+def message_start(message):
+    bot.send_message(message.chat.id, 'Вітаю!')
+
 
 @bot.message_handler(command=['cities'])
-def message_city(massage):
-    keyboard = telebot.types.InlineKeyboardMarkup(raw_width=1)
+def message_city(message):
+    keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
 
     with open('cities.txt') as file:
         cities = [item.split(',') for item in file]
@@ -21,18 +23,21 @@ def message_city(massage):
             url_button = telebot.types.InlineKeyboardButton(text=city.strip(), url=link.strip())
             keyboard.add(url_button)
 
-        bot.send_message(message.chat.id, 'List of cities', reply_markup=keyboard)
+        bot.send_message(message.chat.id, 'Перелік міст', reply_markup=keyboard)
 
-@app.route('/' + TOKEN, methods=[POST])
+
+@app.route('/' + TOKEN, methods=['POST'])
 def get_message():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf8"))])
-    return "Python Telegram Bot 30-01-2022", 200
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "Python Telegram Bot", 200
+
 
 @app.route('/')
 def main():
     bot.remove_webhook()
     bot.set_webhook(url='***' + TOKEN)
-    return "Python Telegram Bot 30-01-2022", 200
+    return "Python Telegram Bot", 200
+
 
 if __name__ == '__name__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
