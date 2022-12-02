@@ -35,9 +35,9 @@ def get_message():
 @app.route('/')
 def main():
     bot.remove_webhook()
-    bot.set_webhook(url='***' + TOKEN)
+    bot.set_webhook(url='https://radiation-rate.herokuapp.com/' + TOKEN)
     return "Python Telegram Bot", 200
 
 
-if __name__ == '__name__':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
