@@ -7,9 +7,9 @@ TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
 
-@bot.message_handler(command=['Почати'])
+@bot.message_handler(command=['start'])
 def message_start(message):
-    bot.send_message(message.chat.id, 'Вітаю!')
+    bot.send_message(message.chat.id, 'Hello!')
 
 
 @bot.message_handler(command=['cities'])
